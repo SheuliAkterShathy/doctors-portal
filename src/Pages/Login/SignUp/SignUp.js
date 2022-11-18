@@ -4,14 +4,24 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
+import useToken from '../../../hooks/useToken'
+
 
 const SignUp = () => {
   const {createUser,updateUser} = useContext(AuthContext)
   const [signUpError,setSignUpError] = useState('');
+
+
+  const [createdUserEmail, setCreatedUserEmail] = useState('')
+  const [token] = useToken(createdUserEmail);
   const location = useLocation();
   const navigate = useNavigate();
 
   const from = location.state?.from?.pathname || '/'
+
+  if(token){
+  navigate(from, {replace:true})
+  }
 
   const {
     register,
@@ -33,13 +43,43 @@ const SignUp = () => {
         updateUser(userInfo)
         .then( () =>{})
         .catch(err=>console.log(err))
-         navigate(from, {replace:true})
+        saveUser(data.name, data.email);
+         
     })
     .catch(error=>{
       console.log(error)
       setSignUpError(error.message)
     });
   };
+
+  const saveUser = (name,email) =>{
+    const user = {name,email};
+    fetch('http://localhost:5000/users', {
+      method:'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+    .then(res => res.json())
+    .then(data =>{
+     setCreatedUserEmail(email)
+      
+    })
+  }
+
+
+  // const getUserToken = email =>{
+  //   fetch(`http://localhost:5000/jwt?email=${email}`)
+  //   .then(res =>res.json())
+  //   .then(data =>{
+  //     if(data.accessToken){
+  //       localStorage.setItem('accessToken', data.accessToken)
+  //       navigate(from, {replace:true})
+  //     }
+  //   })
+  // }
+
   return (
     <div className=" h-[800px] flex justify-center items-center">
       <div className="w-96 p-6 shadow-2xl">
