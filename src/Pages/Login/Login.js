@@ -80,7 +80,7 @@ const Login = () => {
            
            <div>{loginError && <p className="text-red-600">{loginError}</p>}</div>
 
-          <input className="btn btn-accent w-full" type="submit" />
+          <input className="btn btn-accent w-full" value="Sign Up" type="submit" />
         </form>
         <p>
           New to Doctor Portal{" "}
