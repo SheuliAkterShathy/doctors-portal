@@ -10,6 +10,7 @@ const AvailableAppointments = ({selectedDate}) => {
     const [treatment, setTreatment] = useState(null);
 
    const date = format(selectedDate, 'PP')
+   
    const {data: appointmentOptions = [],refetch, isLoading} = useQuery({
     queryKey:['AppointmentOptions', date],
     queryFn: async() => {
