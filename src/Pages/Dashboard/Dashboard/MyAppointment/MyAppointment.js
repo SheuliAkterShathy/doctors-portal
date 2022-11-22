@@ -47,10 +47,10 @@ if(isLoading){
      { bookings &&
         bookings?.map((booking, i)=> <tr key={booking._id}>
         <th>{i+1}</th>
-        <td>{booking.patient}</td>
-        <td>{booking.treatment}</td>
-        <td>{booking.appointmentDate}</td>
-        <td>{booking.slot}</td>
+        <td>{booking?.patient}</td>
+        <td>{booking?.treatment}</td>
+        <td>{booking?.appointmentDate}</td>
+        <td>{booking?.slot}</td>
         <td>
           {
           booking.price && !booking.paid && <Link to={`/dashboard/payment/${booking._id}`}> <button className='btn btn-sm btn-primary'>Pay</button></Link>
